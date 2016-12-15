@@ -38,7 +38,10 @@ int Partition(vector<int> &arr, int begin, int end){
         if(left <= right){
             cout << "Partition  SWAP: " << arr[left] << " with " << arr[right] << endl;
             //print(arr);
-            swap(arr[left], arr[right]);
+            if(left < right){
+                swap(arr[left], arr[right]);    
+            }
+            
             print(arr);
             left++;
             right--;
@@ -88,10 +91,16 @@ bool testQuickSort(vector<int> &array, const vector<int> &arraySorted){
 
 int main() {
     cout << "Hello QuickSort" << endl;
-
+/*
     {   
         vector<int> array = {1, 5, 6, 3, 4};
         const vector<int> arraySorted = {1, 3, 4, 5, 6};
+        testQuickSort(array, arraySorted);
+    }
+    */
+    {   
+        vector<int> array = {1, 2, 3, 4, 5};
+        const vector<int> arraySorted = {1, 2, 3, 4, 5};
         testQuickSort(array, arraySorted);
     }
     // Corner Cases
