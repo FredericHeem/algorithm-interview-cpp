@@ -3,6 +3,7 @@
 #include <iterator>
 #include <algorithm>
 #include "Print.h"
+#include "Utils.h"
 #include <cassert>
 
 using namespace std;
@@ -87,39 +88,38 @@ void QuickSort(T& arr){
     QuickSort(arr.begin(), arr.end(), level);
 }
 
-bool testQuickSort(vector<int> &array, const vector<int> &arraySorted){
+bool testQuickSort(vector<int> &array){
     print(array);
     QuickSort(array);
     print(array);
-    auto equal = std::equal(array.begin(), array.end(), arraySorted.begin());
+    bool equal = isSorted(array);
     cout << "Sorted: " << std::boolalpha << equal << endl;
     assert(equal);
     return equal;
 }
 
+
+
 int main() {
     cout << "Hello QuickSort" << endl;
     {   
         vector<int> array = {1, 3};
-        const vector<int> arraySorted = {1, 3};
-        testQuickSort(array, arraySorted);
+        testQuickSort(array);
     }
     {   
         vector<int> array = {3, 1, 2, 4, 5};
-        const vector<int> arraySorted = {1, 2, 3, 4, 5};
-        testQuickSort(array, arraySorted);
+        assert(isSorted(array) == false);
+        testQuickSort(array);
     }
     
     {   
         vector<int> array = {1, 5, 6, 3, 4};
-        const vector<int> arraySorted = {1, 3, 4, 5, 6};
-        testQuickSort(array, arraySorted);
+        testQuickSort(array);
     }
     
     {   
         vector<int> array = {1, 2, 3, 4, 5};
-        const vector<int> arraySorted = {1, 2, 3, 4, 5};
-        testQuickSort(array, arraySorted);
+        testQuickSort(array);
     }
     // Corner Cases
     /*
