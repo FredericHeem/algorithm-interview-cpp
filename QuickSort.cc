@@ -35,17 +35,17 @@ Iterator Partition(Iterator begin, Iterator end){
         while(*right > pivotValue){
             right--;
         }
+        
         //cout << "Partition after left: " << *left << ", right: " << *right << endl;
-        if(left <= right){
+        if(left < right){
             cout << "Partition  SWAP: " << *left << " with " << *right << endl;
             //print(begin, end);
-            if(left < right){
-                std::swap(*left, *right);    
-                left++; 
-            }
-          
+            std::swap(*left, *right);    
+            left++; 
             right--;    
-        };
+        } else if(left == right){
+            break;
+        }
     }
    
     
@@ -86,8 +86,6 @@ void QuickSort(T& arr){
     
     QuickSort(arr.begin(), arr.end(), level);
 }
-
-
 
 bool testQuickSort(vector<int> &array, const vector<int> &arraySorted){
     print(array);
