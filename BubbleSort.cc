@@ -6,25 +6,23 @@
 
 using namespace std;
 
-void BubbleSort(vector<int>& arr){
-    cout << "Main BubbleSort size: " << arr.size() << endl;
+template<class T>
+void BubbleSort(T& arr){
     if(arr.size() <= 1){
         return;
     }
-    print(arr);
-    for(int right = arr.size() - 1; right >= 0; right--){
-        for(int left = 0; left < right ; left++){
-            if(arr[left] > arr[left + 1]){
-                cout << "SWAP : " << arr[left] << " with " << arr[left + 1] << endl;
-                swap(arr[left], arr[left + 1]);
-                print(arr);
+    for(auto right = arr.end(); right >= arr.begin(); --right){
+        for(auto left = arr.begin(); left + 1 < right; ++left){
+            if(*left > *(left + 1)){
+                swap(*left, *(left + 1));
             }
         }
+        
     }
 }
 
-
-bool testBubbleSort(vector<int> &array){
+template<class T>
+bool testBubbleSort(T &array){
     print(array);
     BubbleSort(array);
     print(array);
