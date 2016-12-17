@@ -1,4 +1,4 @@
-A collection of common algorithms in C++ used in job interviews.
+A collection of *generic* algorithms in C++ 11, useful for job interviews.
 
 * Quick Sort
 * Bubble Sort

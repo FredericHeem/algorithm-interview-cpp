@@ -2,50 +2,36 @@
 #include <vector>
 #include <iterator>
 #include <algorithm>
+#include "Print.h"
 
 using namespace std;
-
-
-template<typename Iterator>
-void print(const Iterator& begin, const Iterator& end){
-    using T = typename std::iterator_traits<Iterator>::value_type;
-
-    for_each(begin, end, [](const T &value){
-        cout << value << " ";
-    });
-    
-    cout << endl;
-}
-
-template<typename T>
-void print(const T &array){
-    print(array.begin(), array.end());
-}
 
 template<typename Iterator>
 Iterator Partition(Iterator begin, Iterator end){
     cout << "Partition begin: " << *begin << ", end: " << *end << endl;
     print(begin, end);
+    auto distance = std::distance(begin, end);
+    cout << "Partition distance: " << distance << endl;
     
-    if(begin >= end){
+    if(distance <= 0){
         return begin;
     }
 
     Iterator left = begin;
     Iterator right = end;
-    //Pivot in the middle, could be anyone really.
-    auto pivotIndex = (end - begin) / 2;
-    auto pivot = *(begin + pivotIndex);
+    //Pivot in the middle, could be anyone really, this affects performance by the way.
+    auto pivotIndex = distance / 2;
+    auto pivotValue = *std::next(begin, pivotIndex);
     
-    cout << "Partition pivot index: " << pivotIndex << ", pivot: " << pivot << endl;
+    cout << "Partition pivot index: " << pivotIndex << ", pivotValue: " << pivotValue << endl;
     
     while(left <= right){
         cout << "Partition before left: " << *left << ", right: " << *right << endl;
-        while(*left < pivot){
+        while(*left < pivotValue){
             left++;
         }
         
-        while(*right > pivot){
+        while(*right > pivotValue){
             right--;
         }
         cout << "Partition after left: " << *left << ", right: " << *right << endl;
