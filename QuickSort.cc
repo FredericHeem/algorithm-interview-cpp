@@ -10,13 +10,10 @@ using namespace std;
 
 template<typename Iterator>
 Iterator Partition(Iterator begin, Iterator end){
-    auto size = std::distance(begin, end);
-    if(size <= 1){
-        return begin;
-    }
     
     Iterator left = begin;
     Iterator right = end - 1;
+    auto size = std::distance(begin, end);
     //Pivot in the middle, could be anyone really, this affects performance by the way.
     auto pivotIndex = size / 2;
     auto pivotValue = *std::next(begin, pivotIndex);
@@ -55,10 +52,6 @@ void QuickSort(Iterator begin, Iterator end){
 
 template<class T>
 void QuickSort(T& arr){
-    if(arr.size() <= 1){
-        return;
-    }
-    
     QuickSort(arr.begin(), arr.end());
 }
 
