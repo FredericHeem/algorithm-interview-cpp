@@ -17,9 +17,25 @@ template<typename T>
 struct Tree {
     Node<T>* root;
     Tree() : root(nullptr){
-        
     }
-
+    ~Tree(){
+        clear();
+    }
+    
+    void clear(){
+        clear(root);
+        root = nullptr;
+    }
+    
+    void clear(Node<T> *node){
+        if(!node){
+            return;
+        }
+        clear(node->left);
+        clear(node->right);
+        delete node;
+    }
+    
     void insert(Node<T>& node, const T& value){
         if(value < node.value){
             if(node.left == nullptr){
@@ -61,12 +77,12 @@ struct Tree {
     }
     
     template<typename Callback>
-    void breadthFirstSearch(Node<T> *node, Callback callback){
-        if(!node){
+    void breadthFirstSearch(Callback callback){
+        if(!root){
             return;
         }
         std::queue<Node<T>* > queue;
-        queue.push(node);
+        queue.push(root);
         
         while(!queue.empty()){
             auto current = queue.front();
@@ -80,12 +96,6 @@ struct Tree {
             }
         }
     }
-    
-    template<typename Callback>
-    void breadthFirstSearch(Callback callback){
-        breadthFirstSearch(root, callback);
-    }
-    
 };
 
 
