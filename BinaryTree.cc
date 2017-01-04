@@ -60,6 +60,53 @@ struct Tree {
         }
     }
 
+    Node<T>* minNode(Node<T>* node){
+        Node<T>* minNode = node;
+        while(minNode->left){
+            minNode = minNode->left;
+        }
+        return minNode;
+    }
+    
+    Node<T>* remove(const T& value, Node<T>* node){
+        cout << "remove " << value << " node value " << node->value << endl;
+        if(node == nullptr){
+            return nullptr;
+        }
+        if(value < node->value){
+            node->left = remove(value, node->left);
+        } else if(value > node->value){
+            node->right = remove(value, node->right);
+        } else {
+            if(node->left && node->right){
+                //Find the min value from the right node
+                auto minNode = this->minNode(node->right);
+                //Swap the value
+                auto nodeValue = node->value;
+                node->value = minNode->value;
+                minNode->value = nodeValue;
+                
+                node->right = remove(nodeValue, node->right);
+            } else {
+                Node<T>* newChild = nullptr;
+                if(node->left){
+                     newChild = node->left;
+                } else if(node->right){
+                     newChild = node->right;
+                }
+                
+                delete node;
+                return newChild; 
+            }
+        }
+        
+        return node;
+    }
+    
+    void remove(const T& value){
+        root = remove(value, root);
+    }
+    
     template<typename Callback>
     void traverseInOrder(Node<T> *node, Callback callback){
         if(!node){
@@ -109,13 +156,28 @@ int main() {
     Tree<int> tree;
     
     assert(tree.root == nullptr);
-    tree.insert(1);
+    tree.insert(9);
+    tree.insert(8);
+    tree.insert(5);
     tree.insert(3);
-    tree.insert(2);
-    tree.insert(4);
-    tree.traverseInOrder(print<int>);
+    tree.insert(6);
+    //tree.traverseInOrder(print<int>);
     cout << endl;
-    tree.breadthFirstSearch(print<int>);
+    //tree.breadthFirstSearch(print<int>);
     cout << endl; 
+
+    int size = 0;
+    auto count = [&size](const int &value){
+        size++;
+        std::cout << value << " ";
+    };
     
+    tree.traverseInOrder(count);
+    cout << endl;
+    
+    tree.remove(5);
+    tree.remove(9);
+    tree.remove(8);
+    tree.traverseInOrder(count);
+    cout << endl; 
 }
