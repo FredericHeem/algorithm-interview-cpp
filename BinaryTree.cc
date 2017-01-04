@@ -69,7 +69,6 @@ struct Tree {
     }
     
     Node<T>* remove(const T& value, Node<T>* node){
-        cout << "remove " << value << " node value " << node->value << endl;
         if(node == nullptr){
             return nullptr;
         }
