@@ -17,13 +17,16 @@ struct Edge {
 template<typename TKey = std::string, typename TWeight = int>
 struct Node {
     TKey id;
-    std::vector<Edge<TKey, TWeight> > neighbors;
-    Node(TKey id) : id(id){} 
+    typedef std::vector<Edge<TKey, TWeight> > Neighbors;
+    Neighbors neighbors;
+    Node(TKey id) : id(id){};
+    Node(TKey id, const Neighbors& neighbors) : id(id), neighbors(neighbors){};
 };
 
 template<typename TKey = std::string, typename TWeight = int>
 struct Graph {
-    std::unordered_map<TKey, Node<TKey, TWeight> > nodes;
+    typedef std::unordered_map<TKey, Node<TKey, TWeight> > Nodes;
+    Nodes nodes;
 };
 
 template<typename TKey = std::string, typename TWeight = int>
@@ -81,32 +84,22 @@ void dikjstra(const Graph<T, TWeight> &graph, const T &source, const T &target){
     }
 }
 
-int main() //Driver Function for Dijkstra SSSP
+int main()
 {
     std::cout << "Dijkstra\n";
     Graph<> graph;
     auto& nodes = graph.nodes;
-    Node<> a("A");
-    a.neighbors.push_back(Edge<>("B", 5));
-    a.neighbors.push_back(Edge<>("C", 3));
+    Node<> a("A", {{"B", 5}, {"C", 3}});
     nodes.emplace(a.id, a);
     
-    Node<> b("B");
-    b.neighbors.push_back(Edge<>("D", 5));
+    Node<> b("B", {{"D", 5}});
     nodes.emplace(b.id, b);
     
-    Node<> c("C");
-    c.neighbors.push_back(Edge<>("D", 4));
+    Node<> c("C", {{"D", 4}});
     nodes.emplace(c.id, c);
 
     Node<> d("D");
     nodes.emplace(d.id, d);
-    
-    auto nodeIt = graph.nodes.find("A");
-    if(nodeIt == graph.nodes.end()){
-        cerr << "cannot found  1" << endl;
-        assert(0);
-    }
         
     for(auto &kv: nodes){
         auto node = kv.second;
@@ -117,5 +110,4 @@ int main() //Driver Function for Dijkstra SSSP
     }
     
     dikjstra<string, int>(graph, "A", "D");
-    
 }
