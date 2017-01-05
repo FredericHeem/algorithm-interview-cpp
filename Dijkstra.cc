@@ -32,7 +32,31 @@ struct Graph {
 };
 
 template<typename T = std::string, typename TWeight = int>
-void dikjstra(const Graph<T, TWeight> &graph, const T &source, const T &target){
+struct DikjstraVisitor {
+    virtual void processNode(T id){};
+    virtual void nodeNotFound(T id){};
+    virtual void addNodeToVisit(T id){};
+};
+
+template<typename T = std::string, typename TWeight = int>
+struct DikjstraVisitorLog : public DikjstraVisitor<T, TWeight> {
+    virtual void processNode(T id){
+        cout << "Visiting node " << id << endl;
+    };
+    virtual void nodeNotFound(T id){
+        cerr << "node not found: " << id << endl;
+    };
+    virtual void addNodeToVisit(T id){
+        cerr << "addNodeToVisit: " << id << endl;
+    };
+};
+
+
+template<typename T = std::string, typename TWeight = int>
+void dikjstra(const Graph<T, TWeight> &graph,
+              const T &source,
+              const T &target, 
+              DikjstraVisitor<T, TWeight> &visitor){
     std::unordered_map<T, TWeight> distanceMap;
     std::unordered_set<T> visitedSet;
     struct prioritize{ 
@@ -47,12 +71,11 @@ void dikjstra(const Graph<T, TWeight> &graph, const T &source, const T &target){
     while(!pq.empty())
     {
         auto nodeDistance = pq.top();
-        cout << "processing " << nodeDistance.id << ", #queues " << pq.size() << endl;
         pq.pop();
+        visitor.processNode(nodeDistance.id);
         auto nodeIt = graph.nodes.find(nodeDistance.id);
         if(nodeIt == graph.nodes.end()){
-            cerr << "cannot found  " << nodeDistance.id << endl;
-            assert(0);
+            visitor.nodeNotFound(nodeDistance.id);
             continue;
         }
         auto &node = nodeIt->second;
@@ -63,12 +86,10 @@ void dikjstra(const Graph<T, TWeight> &graph, const T &source, const T &target){
             visitedSet.emplace(neighbor.id);
             
             auto newDist = distanceMap[node.id] + neighbor.weight;
-            cout << "visiting neighbor " << neighbor.id << ", new dist: " << newDist << ", #visited: " << visitedSet.size() << endl;
-            
             auto distanceIt = distanceMap.find(neighbor.id);
             if((distanceIt == distanceMap.end()) || (newDist < distanceIt->second)){
                 distanceMap[neighbor.id] = newDist;
-                cout << "pushing " << neighbor.id << ", newDist " << newDist << endl;
+                visitor.addNodeToVisit(neighbor.id);
                 pq.push({neighbor.id, newDist});
             }
         }
@@ -100,8 +121,8 @@ void testGraphString(){
     });
     
     displayNode<>(graph.nodes);
-    
-    dikjstra<string, int>(graph, "A", "D");
+    auto visitor = DikjstraVisitorLog<>();
+    dikjstra<string, int>(graph, "A", "D", visitor);
 }
 
 void testGraphInt(){
@@ -114,8 +135,8 @@ void testGraphInt(){
     });
         
     displayNode<>(graph.nodes);
-    
-    dikjstra<int, int>(graph, 1, 4);
+    auto visitor = DikjstraVisitorLog<int, int>();
+    dikjstra<int, int>(graph, 1, 4, visitor);
 }
 
 void testGraphManualEmplace(){
@@ -136,8 +157,8 @@ void testGraphManualEmplace(){
     nodes.emplace(d.id, d);
      
     displayNode<>(graph.nodes);
-    
-    dikjstra<string, int>(graph, "A", "D");
+    auto visitor = DikjstraVisitor<>();
+    dikjstra<string, int>(graph, "A", "D", visitor);
 }
 
 
