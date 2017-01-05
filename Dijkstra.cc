@@ -29,24 +29,17 @@ struct Graph {
     Nodes nodes;
 };
 
-template<typename TKey = std::string, typename TWeight = int>
-struct NodeDistance {
-    TKey id;
-    TWeight distance;
-    NodeDistance(TKey id, TWeight distance) : id(id), distance(distance){} 
-};
-
 template<typename T = std::string, typename TWeight = int>
 void dikjstra(const Graph<T, TWeight> &graph, const T &source, const T &target){
     std::unordered_map<T, TWeight> distanceMap;
     std::unordered_set<T> visitedSet;
     struct prioritize{ 
-        bool operator ()(NodeDistance<T, TWeight>& nd1,
-                         NodeDistance<T, TWeight>& nd2){
-            return nd1.distance > nd2.distance;
+        bool operator ()(Edge<T, TWeight>& e1,
+                         Edge<T, TWeight>& e2){
+            return e1.weight > e2.weight;
         }
     };
-    std::priority_queue< NodeDistance<T, TWeight>, vector<NodeDistance<T, TWeight> >, prioritize > pq;
+    std::priority_queue< Edge<T, TWeight>, vector<Edge<T, TWeight> >, prioritize > pq;
     pq.push({source, 0});
     
     while(!pq.empty())
