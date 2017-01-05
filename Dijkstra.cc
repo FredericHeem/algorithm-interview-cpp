@@ -84,9 +84,19 @@ void dikjstra(const Graph<T, TWeight> &graph, const T &source, const T &target){
     }
 }
 
-int main()
-{
-    std::cout << "Dijkstra\n";
+template <class Nodes>
+void displayNode(const Nodes &nodes){
+      for(auto &kv: nodes){
+        auto node = kv.second;
+        cout << node.id << endl;
+        for(auto neighbor : node.neighbors){
+            cout << " " << neighbor.id << " " << neighbor.weight << endl;
+        }
+    }  
+}
+
+void testGraphString(){
+    std::cout << "******* Dijkstra , node with string as key\n";
     Graph<> graph;
     auto& nodes = graph.nodes;
     Node<> a("A", {{"B", 5}, {"C", 3}});
@@ -101,13 +111,35 @@ int main()
     Node<> d("D");
     nodes.emplace(d.id, d);
         
-    for(auto &kv: nodes){
-        auto node = kv.second;
-        cout << node.id << endl;
-        for(auto neighbor : node.neighbors){
-            cout << " " << neighbor.id << " " << neighbor.weight << endl;
-        }
-    }
+    displayNode<>(nodes);
     
     dikjstra<string, int>(graph, "A", "D");
+}
+
+void testGraphInt(){
+    std::cout << "****** Dijkstra, node with int as key\n";
+    Graph<int> graph;
+    auto& nodes = graph.nodes;
+    Node<int> a(1, {{2, 5}, {3, 3}});
+    nodes.emplace(a.id, a);
+    
+    Node<int> b(2, {{4, 5}});
+    nodes.emplace(b.id, b);
+    
+    Node<int> c(3, {{4, 4}});
+    nodes.emplace(c.id, c);
+
+    Node<int> d(4);
+    nodes.emplace(d.id, d);
+        
+    displayNode<>(nodes);
+    
+    dikjstra<int, int>(graph, 1, 4);
+}
+
+int main()
+{
+    std::cout << "Dijkstra\n";
+    testGraphString();
+    testGraphInt();
 }
