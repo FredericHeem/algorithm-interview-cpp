@@ -79,12 +79,12 @@ void dikjstra(const Graph<T, TWeight> &graph,
             continue;
         }
         auto &node = nodeIt->second;
+        
+        auto isVisited = visitedSet.find(node.id);
+        if(isVisited != visitedSet.end()) continue;
+        visitedSet.emplace(node.id);
+            
         for(auto neighbor : node.neighbors){
-            auto isVisited = visitedSet.find(neighbor.id);
-            if(isVisited != visitedSet.end()) continue;
-            
-            visitedSet.emplace(neighbor.id);
-            
             auto newDist = distanceMap[node.id] + neighbor.weight;
             auto distanceIt = distanceMap.find(neighbor.id);
             if((distanceIt == distanceMap.end()) || (newDist < distanceIt->second)){
@@ -114,9 +114,9 @@ void displayNode(const Nodes &nodes){
 void testGraphString(){
     std::cout << "******* Dijkstra , node with string as key, use initialization list\n";
     Graph<> graph({
-        { "A", {"A", {{"B", 5}, {"C", 3}}} },
+        { "A", {"A", {{"B", 5}, {"C", 1}}} },
         { "B", {"B", {{"D", 2}}} },
-        { "C", {"C", {{"D", 1}}} },
+        { "C", {"C", {{"D", 9}}} },
         { "D", {"D"} }
     });
     
@@ -166,6 +166,6 @@ int main()
 {
     std::cout << "Dijkstra\n";
     testGraphString();
-    testGraphInt();
-    testGraphManualEmplace();
+    //testGraphInt();
+    //testGraphManualEmplace();
 }
