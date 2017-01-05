@@ -135,4 +135,8 @@ int main()
     std::cout << "Dijkstra\n";
     testGraphString();
     testGraphInt();
+    
+    std::unordered_map<std::string, std::string> m { { "a", "bc" }
+                                               , { "b", "xy" }
+                                               };
 }
