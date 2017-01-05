@@ -27,6 +27,8 @@ template<typename TKey = std::string, typename TWeight = int>
 struct Graph {
     typedef std::unordered_map<TKey, Node<TKey, TWeight> > Nodes;
     Nodes nodes;
+    Graph() {}
+    Graph(const Nodes& nodes): nodes(nodes){}
 };
 
 template<typename T = std::string, typename TWeight = int>
@@ -89,13 +91,42 @@ void displayNode(const Nodes &nodes){
 }
 
 void testGraphString(){
-    std::cout << "******* Dijkstra , node with string as key\n";
+    std::cout << "******* Dijkstra , node with string as key, use initialization list\n";
+    Graph<> graph({
+        { "A", {"A", {{"B", 5}, {"C", 3}}} },
+        { "B", {"B", {{"D", 2}}} },
+        { "C", {"C", {{"D", 1}}} },
+        { "D", {"D"} }
+    });
+    
+    displayNode<>(graph.nodes);
+    
+    dikjstra<string, int>(graph, "A", "D");
+}
+
+void testGraphInt(){
+    std::cout << "****** Dijkstra, node with int as key\n";
+    Graph<int, int> graph({
+        { 1, {1, {{2, 5}, {3, 3}}} },
+        { 2, {2, {{4, 2}}} },
+        { 3, {3, {{4, 1}}} },
+        { 4, {4} }
+    });
+        
+    displayNode<>(graph.nodes);
+    
+    dikjstra<int, int>(graph, 1, 4);
+}
+
+void testGraphManualEmplace(){
+    std::cout << "******* Dijkstra , node with string as key, use emplace to add nodes\n";
+
     Graph<> graph;
     auto& nodes = graph.nodes;
     Node<> a("A", {{"B", 5}, {"C", 3}});
     nodes.emplace(a.id, a);
     
-    Node<> b("B", {{"D", 5}});
+    Node<> b("B", {{"D", 1}});
     nodes.emplace(b.id, b);
     
     Node<> c("C", {{"D", 4}});
@@ -103,40 +134,17 @@ void testGraphString(){
 
     Node<> d("D");
     nodes.emplace(d.id, d);
-        
-    displayNode<>(nodes);
+     
+    displayNode<>(graph.nodes);
     
     dikjstra<string, int>(graph, "A", "D");
 }
 
-void testGraphInt(){
-    std::cout << "****** Dijkstra, node with int as key\n";
-    Graph<int> graph;
-    auto& nodes = graph.nodes;
-    Node<int> a(1, {{2, 5}, {3, 3}});
-    nodes.emplace(a.id, a);
-    
-    Node<int> b(2, {{4, 5}});
-    nodes.emplace(b.id, b);
-    
-    Node<int> c(3, {{4, 4}});
-    nodes.emplace(c.id, c);
-
-    Node<int> d(4);
-    nodes.emplace(d.id, d);
-        
-    displayNode<>(nodes);
-    
-    dikjstra<int, int>(graph, 1, 4);
-}
 
 int main()
 {
     std::cout << "Dijkstra\n";
     testGraphString();
     testGraphInt();
-    
-    std::unordered_map<std::string, std::string> m { { "a", "bc" }
-                                               , { "b", "xy" }
-                                               };
+    testGraphManualEmplace();
 }
