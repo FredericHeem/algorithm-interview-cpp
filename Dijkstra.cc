@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <list>
 #include <unordered_set>
 #include <unordered_map>
 #include <queue>
@@ -55,9 +56,11 @@ struct DikjstraVisitorLog : public DikjstraVisitor<T, TWeight> {
 template<typename T = std::string, typename TWeight = int>
 void dikjstra(const Graph<T, TWeight> &graph,
               const T &source,
-              const T &target, 
+              const T &target,
+              std::list<T> &paths,
               DikjstraVisitor<T, TWeight> &visitor){
     std::unordered_map<T, TWeight> distanceMap;
+    std::unordered_map<T, T> parentMap;
     std::unordered_set<T> visitedSet;
     struct prioritize{ 
         bool operator ()(Edge<T, TWeight>& e1,
@@ -80,8 +83,6 @@ void dikjstra(const Graph<T, TWeight> &graph,
         }
         auto &node = nodeIt->second;
         
-        auto isVisited = visitedSet.find(node.id);
-        if(isVisited != visitedSet.end()) continue;
         visitedSet.emplace(node.id);
             
         for(auto neighbor : node.neighbors){
@@ -90,13 +91,25 @@ void dikjstra(const Graph<T, TWeight> &graph,
             if((distanceIt == distanceMap.end()) || (newDist < distanceIt->second)){
                 distanceMap[neighbor.id] = newDist;
                 visitor.addNodeToVisit(neighbor.id);
-                pq.push({neighbor.id, newDist});
+                parentMap[neighbor.id] = node.id;
+                if(visitedSet.find(neighbor.id) == visitedSet.end()){
+                    pq.push({neighbor.id, newDist});
+                }
             }
         }
     }
     
     for(auto &kv: distanceMap){
         cout << "distance  node: " << kv.first << ", dist " << kv.second << endl;
+    }
+    
+    auto parentIt = parentMap.find(target);
+    
+    paths.push_front(target);
+    while(parentIt != parentMap.end()){
+        const auto &parent = (*parentIt).second;
+        parentIt = parentMap.find(parent);
+        paths.push_front(parent);
     }
 }
 
@@ -110,7 +123,13 @@ void displayNode(const Nodes &nodes){
         }
     }  
 }
-
+template <class T = std::string>
+void displayPath(const std::list<T> &path){
+    for(auto &element: path){
+        cout << element << " ";
+    }
+    cout << endl;
+}
 void testGraphString(){
     std::cout << "******* Dijkstra , node with string as key, use initialization list\n";
     Graph<> graph({
@@ -122,7 +141,38 @@ void testGraphString(){
     
     displayNode<>(graph.nodes);
     auto visitor = DikjstraVisitorLog<>();
-    dikjstra<string, int>(graph, "A", "D", visitor);
+    std::list<string> paths;
+    dikjstra<string, int>(graph, "A", "D", paths, visitor);
+    displayPath<>(paths);
+}
+
+void testGraphNoPath(){
+    std::cout << "******* Dijkstra , no path\n";
+    Graph<> graph({
+        { "A", {"A", {{"B", 5}, {"C", 1}}} },
+        { "B", {"B", {{"C", 2}}} },
+        { "C", {"C", {{"B", 9}}} },
+        { "D", {"D"} }
+    });
+    
+    displayNode<>(graph.nodes);
+    auto visitor = DikjstraVisitorLog<>();
+    std::list<string> paths;
+    dikjstra<string, int>(graph, "A", "D", paths, visitor);
+    displayPath<>(paths);
+}
+
+void testGraphOneNode(){
+    std::cout << "******* Dijkstra , one node\n";
+    Graph<> graph({
+        { "A", {"A", {}} }
+    });
+    
+    displayNode<>(graph.nodes);
+    auto visitor = DikjstraVisitorLog<>();
+    std::list<string> paths;
+    dikjstra<string, int>(graph, "A", "A", paths, visitor);
+    displayPath<>(paths);
 }
 
 void testGraphInt(){
@@ -136,7 +186,9 @@ void testGraphInt(){
         
     displayNode<>(graph.nodes);
     auto visitor = DikjstraVisitorLog<int, int>();
-    dikjstra<int, int>(graph, 1, 4, visitor);
+    std::list<int> paths;
+    dikjstra<int, int>(graph, 1, 4, paths, visitor);
+    displayPath<int>(paths);
 }
 
 void testGraphManualEmplace(){
@@ -158,7 +210,10 @@ void testGraphManualEmplace(){
      
     displayNode<>(graph.nodes);
     auto visitor = DikjstraVisitor<>();
-    dikjstra<string, int>(graph, "A", "D", visitor);
+    std::list<string> paths;
+    dikjstra<string, int>(graph, "A", "D", paths, visitor);
+    displayPath<>(paths);
+    
 }
 
 
@@ -166,6 +221,8 @@ int main()
 {
     std::cout << "Dijkstra\n";
     testGraphString();
+    testGraphNoPath();
+    testGraphOneNode();
     //testGraphInt();
     //testGraphManualEmplace();
 }

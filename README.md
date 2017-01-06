@@ -28,7 +28,11 @@ A collection of *generic* algorithms in C++ 11, useful for job interviews.
  * clear all nodes
  * Breadth first search 
  * Depth first search
- 
+
+## Graph
+
+ * Dijkstra - shortest path
+
 ## How to build and run 
 
 Build and Run:
