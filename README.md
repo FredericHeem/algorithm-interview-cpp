@@ -10,6 +10,7 @@ A collection of *generic* algorithms in C++ 11, useful for job interviews.
 
 * Linked List
 * Binary Tree
+* Array
 
 ### Linked List
 
@@ -29,6 +30,10 @@ A collection of *generic* algorithms in C++ 11, useful for job interviews.
  * Breadth first search 
  * Depth first search
 
+### Array
+
+ * intersection
+ 
 ## Graph
 
  * Dijkstra - shortest path
