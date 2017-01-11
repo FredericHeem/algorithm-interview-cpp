@@ -83,8 +83,8 @@ void heapify(T& array){
 template<typename T>
 void heapSort(T& array){
 
-  heapMake(array);
-  for(auto highIt = array.end(); highIt >= array.begin(); highIt--){
+  heapify(array);
+  for(auto highIt = array.end() - 1; highIt >= array.begin(); highIt--){
 
     std::swap(*array.begin(), *highIt);
     siftDown(array, array.begin(), highIt);
@@ -162,7 +162,7 @@ void testHeapSort(){
   cout << "testHeapSort " << endl;
   vector<int> array {1, 8, 3, 5, 4, 6, 2, 7};
   print(array);
-  heapify(array);
+  heapSort(array);
   print(array);
 }
 
