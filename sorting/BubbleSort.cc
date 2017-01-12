@@ -1,25 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
+#include "BubbleSort.h"
 #include "Print.h"
 #include "Utils.h"
 
 using namespace std;
-
-template<class T>
-void BubbleSort(T& arr){
-    if(arr.size() <= 1){
-        return;
-    }
-    for(auto right = arr.end(); right >= arr.begin(); --right){
-        for(auto left = arr.begin(); left + 1 < right; ++left){
-            if(*left > *(left + 1)){
-                swap(*left, *(left + 1));
-            }
-        }
-        
-    }
-}
 
 template<class T>
 bool testBubbleSort(T &array){
@@ -43,7 +29,7 @@ int main() {
         {3, 2, 1},
         {3, 1, 2, 4, 5}
     };
-    
+
     for_each(testVectors.begin(), testVectors.end(), [](vector<int> & array){
         testBubbleSort(array);
     });
