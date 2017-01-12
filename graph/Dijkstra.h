@@ -1,3 +1,9 @@
+#include <vector>
+#include <list>
+#include <unordered_set>
+#include <unordered_map>
+#include <queue>
+
 template <typename TKey = std::string, typename TWeight = int>
 struct Edge {
     TKey id;
