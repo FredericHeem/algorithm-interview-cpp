@@ -1,0 +1,13 @@
+cmake_minimum_required (VERSION 2.6)
+set (CMAKE_CXX_STANDARD 11)
+project (Sort)
+add_executable(BubbleSort BubbleSort.cc)
+add_executable(QuickSort QuickSort.cc)
+add_executable(InsertionSort InsertionSort.cc)
+add_executable(HeapSort HeapSort.cc)
+
+include(CTest)
+add_test(BubbleSort BubbleSort)
+add_test(QuickSort QuickSort)
+add_test(InsertionSort InsertionSort)
+add_test(HeapSort HeapSort)

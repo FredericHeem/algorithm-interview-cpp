@@ -5,6 +5,7 @@ A collection of *generic* algorithms in C++ 11, useful for job interviews.
 * Quick Sort
 * Bubble Sort
 * Insertion Sort
+* Heap Sort
 
 ## Data structures
 
@@ -42,6 +43,8 @@ A collection of *generic* algorithms in C++ 11, useful for job interviews.
 
 Build and Run:
 
+    $ mkdir build && cd build
+    $ cmake ..
     $ make
-    $ ./QuickSort
-    $ ./BubbleSort
+    $ ctest
+    

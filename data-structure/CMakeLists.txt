@@ -1,0 +1,11 @@
+cmake_minimum_required (VERSION 2.6)
+set (CMAKE_CXX_STANDARD 11)
+project (Sort)
+add_executable(Array Array.cc)
+add_executable(BinaryTree BinaryTree.cc)
+add_executable(LinkedList LinkedList)
+
+include(CTest)
+add_test(Array Array)
+add_test(BinaryTree BinaryTree)
+add_test(LinkedList LinkedList)

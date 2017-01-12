@@ -1,0 +1,8 @@
+cmake_minimum_required (VERSION 2.6)
+set (CMAKE_CXX_STANDARD 11)
+project (Algorithm)
+include(CTest)
+
+add_subdirectory(sorting)
+add_subdirectory(data-structure)
+add_subdirectory(graph)
