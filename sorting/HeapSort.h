@@ -68,7 +68,7 @@ void heapify(T& array){
 }
 
 template<typename T>
-void heapSort(T& array){
+void HeapSort(T& array){
 
   if(array.size() <= 1){
     return;
