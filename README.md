@@ -40,6 +40,10 @@ A collection of *generic* algorithms in C++ 11, useful for job interviews.
 
  * Dijkstra - shortest path
 
+## Algorithm
+
+ * Binary Search
+
 ## How to build and run 
 
 Build and Run:
