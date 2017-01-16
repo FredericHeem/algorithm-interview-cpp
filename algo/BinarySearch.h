@@ -1,5 +1,5 @@
 #include <iterator>
-
+// Non recursive version of the binary search algorithm with C++11 iterators.
 template<class T, class Iterator>
 bool BinarySearch(Iterator begin, Iterator end, const T& value){
   auto low = begin;
@@ -25,7 +25,7 @@ bool BinarySearch(Iterator begin, Iterator end, const T& value){
   return false;
 }
 
-
+// Recursive version of the binary search algorithm.
 template<class Iterator, class T>
 bool BinarySearchRecursive(Iterator begin, Iterator end, const T& value){
   auto distance = std::distance(begin, end) / 2;

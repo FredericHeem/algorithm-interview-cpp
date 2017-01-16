@@ -42,7 +42,8 @@ A collection of *generic* algorithms in C++ 11, useful for job interviews.
 
 ## Algorithm
 
- * Binary Search
+ * Binary Search - non recursive 
+ * Binary Search - recursive 
 
 ## How to build and run 
 

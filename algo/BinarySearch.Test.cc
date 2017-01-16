@@ -26,6 +26,12 @@ void testBinarySearch(){
     vector<int> arr = {99, 1, 2, 36, 50, 100};
     std::sort(arr.begin(), arr.end());
     assert(binarySearch(arr.begin(), arr.end(), 2));
+    assert(binarySearch(arr.begin(), arr.end(), 2));
+    assert(binarySearch(arr.begin(), arr.end(), 1));
+    assert(binarySearch(arr.begin(), arr.end(), 100));
+    assert(binarySearch(arr.end(), arr.begin(), 2) == false);
+    assert(binarySearch(arr.begin(), arr.end(), 40) == false);
+    assert(binarySearch(arr.begin(), arr.end(), 0) == false);
 }
 
 int main()
