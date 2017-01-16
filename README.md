@@ -1,4 +1,4 @@
-A collection of *generic* algorithms in C++ 11, useful for job interviews.
+A collection of *generic* algorithms in C++ 11, based on the STL library, useful for preparing job interviews...
 
 ## Sorting
 
@@ -54,3 +54,22 @@ Build and Run:
     $ make
     $ ctest
     
+## STL
+
+This library uses the following STL algorithms, functions and data structures:
+
+* std::unordered_set
+* std::unordered_map
+* std::priority_queue
+* std::vector
+* std::list
+
+* std::next
+* std::distance
+
+* std::swap
+* std::min_element
+* std::sort
+* std::is_sorted
+
+
