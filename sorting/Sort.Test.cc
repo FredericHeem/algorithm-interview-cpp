@@ -8,7 +8,6 @@
 #include "HeapSort.h"
 #include "QuickSort.h"
 #include "Print.h"
-#include "Utils.h"
 #include <cassert>
 
 using namespace std;
@@ -44,7 +43,7 @@ bool testSort(T &array){
     TSort<T> mySort;
     mySort(array);
     print(array);
-    bool equal = isSorted(array);
+    bool equal = std::is_sorted(array.begin(), array.end());
     cout << "Sorted: " << std::boolalpha << equal << endl;
     assert(equal);
     return equal;
