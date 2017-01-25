@@ -26,7 +26,7 @@ bool isChildren(const Box& father, const Box& child){
 
 struct Tree {
   Node root;
-  Tree(): root(Box(100, 100, 100)){}
+  Tree(): root(Box(std::numeric_limits<size_t>::max(), std::numeric_limits<size_t>::max(), std::numeric_limits<size_t>::max())){}
   void insertBox(const Box& box){
     std::cout << "insertBox root " << std::endl;
     insertBox(box, root, root);
