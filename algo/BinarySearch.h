@@ -1,3 +1,4 @@
+#pragma once
 #include <iterator>
 // Non recursive version of the binary search algorithm with C++11 iterators.
 template<class T, class Iterator>

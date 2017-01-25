@@ -2,6 +2,7 @@
 #include <iostream>
 #include <unordered_set>
 #include <cassert>
+#include "Array.h"
 
 using namespace std;
 
@@ -43,5 +44,6 @@ void testIntersection(){
 int main(){
   cout << "Array" << endl;
   testIntersection();
+  Array<int> array;
 
 }

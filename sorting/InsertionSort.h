@@ -1,7 +1,6 @@
+#pragma once
 #include <iterator>
 #include <algorithm>
-
-using namespace std;
 
 template<class T>
 void InsertionSort(T& arr){

@@ -1,7 +1,7 @@
+#pragma once
+
 #include <iterator>
 #include <algorithm>
-
-using namespace std;
 
 template<typename Iterator>
 Iterator Partition(Iterator begin, Iterator end){

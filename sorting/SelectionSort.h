@@ -1,8 +1,7 @@
+#pragma once
 #include <iterator>
 #include <utility>
 #include <algorithm>
-
-using namespace std;
 
 template<class T>
 void SelectionSort(T& arr){
