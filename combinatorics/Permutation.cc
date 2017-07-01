@@ -3,6 +3,7 @@
 #include <list>
 #include <algorithm>
 #include <cassert>
+#include "Permutation.h"
 
 using namespace std;
 
@@ -22,18 +23,6 @@ int factorial(int i)
         return i * factorial(i - 1);
     }
     return 1;
-}
-
-vector<vector<string>> permutation(vector<string> &rule)
-{
-    vector<vector<string>> out;
-    std::sort(rule.begin(), rule.end());
-
-    do
-    {
-        out.push_back(rule);
-    } while (std::next_permutation(rule.begin(), rule.end()));
-    return out;
 }
 
 int main()
