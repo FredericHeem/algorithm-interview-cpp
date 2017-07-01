@@ -3,6 +3,8 @@
         "iostream": "cpp",
         "vector": "cpp",
         "ostream": "cpp",
-        "hashtable": "cpp"
+        "hashtable": "cpp",
+        "*.tcc": "cpp",
+        "iosfwd": "cpp"
     }
 }

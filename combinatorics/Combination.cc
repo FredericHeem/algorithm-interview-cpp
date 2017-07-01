@@ -33,7 +33,7 @@ int main()
       {{"A3", "B2", "C1"}},
       {{"A3", "B2", "C2"}},         
     };
-
+    CartesianProductStream(rules);
     vector<vector<string> > out = CartesianProduct(rules);
     std::cout << "Combination size " << out.size() << endl;
     std::cout << "Combination outputExpected size  " << outputExpected.size() << endl;
