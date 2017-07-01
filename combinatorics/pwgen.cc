@@ -75,13 +75,14 @@ int main()
     std::cout << "Pwgen\n";
 
     vector<vector<string>> rules;
-    rules.push_back({"maxime.beynet@gmail.com", "MAXIME.BEYNET@GMAIL.COM", "mrfreestyleur@free.fr", "MRFREESTYLEUR@FREE.FR"});
-    rules.push_back({"ET", "ETHER", "ETHEREUM", "Ether", "Ethereum"});
-    rules.push_back({"wallet", "WALLET", "Wallet", "wallets", "WALLETS", "Wallets"});
+    rules.push_back({"maxime.beynet@gmail.com", "MAXIME.BEYNET@GMAIL.COM", "mrfreestyleur@free.fr", "MRFREESTYLEUR@FREE.FR",
+                     "maxime;beynet@gmail;com", "MAXIME;BEYNET@GMAIL;COM", "mrfreestyleur@free;fr", "MRFREESTYLEUR@FREE;FR"});
+    rules.push_back({"", "ET", "ETHER", "ETHEREUM", "Ether", "Ethereum"});
+    rules.push_back({"", "wallet", "WALLET", "Wallet", "wallets", "WALLETS", "Wallets"});
     rules.push_back({"1", "01", "2", "02"});
 
-    rules.push_back({"vt88q6s2"});
-    rules.push_back({"yp3s532g"});
+    rules.push_back({"", "vt88q6s2"});
+    rules.push_back({"", "yp3s532g"});
     rules.push_back({"", "Y@"});
 
     rulesCount(rules);
