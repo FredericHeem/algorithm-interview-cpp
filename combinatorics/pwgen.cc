@@ -32,29 +32,35 @@ vector<vector<string>> insertSeparator(const vector<string> &rule)
     vector<vector<string>> out;
     for (auto it = rule.begin(); it != rule.end(); it++)
     {
-        out.push_back({*it});
-        if (it != rule.end() - 1)
+        if (!(*it).empty())
         {
-            out.push_back(seps);
+            out.push_back({*it});
+            if (it != rule.end() - 1)
+            {
+                out.push_back(seps);
+            }
         }
     }
-    
+
     //display(out);
     return out;
 }
-int rulesCount(const vector<vector<string>> &rules){
+int rulesCount(const vector<vector<string>> &rules)
+{
     //Cartesian product
     int cpCount = 1;
-    for(const auto&rule: rules){
+    for (const auto &rule : rules)
+    {
         cpCount *= rule.size();
     }
     cout << "cartesian product size " << cpCount << endl;
     int permutationCount = 1;
-    for(int i = 1; i <= rules.size(); i++){
+    for (int i = 1; i <= rules.size(); i++)
+    {
         permutationCount *= i;
     }
     cout << "permutationCount " << permutationCount << endl;
-    
+
     int sepCount = 4;
     int finalCp = pow(sepCount, rules.size() - 1);
     cout << "finalCp " << finalCp << endl;
@@ -69,14 +75,14 @@ int main()
     std::cout << "Pwgen\n";
 
     vector<vector<string>> rules;
-    rules.push_back({"maxime.beynet@gmail.com", "MAXIME.BEYNET@GMAIL.COM","mrfreestyleur@free.fr", "MRFREESTYLEUR@FREE.FR"});
+    rules.push_back({"maxime.beynet@gmail.com", "MAXIME.BEYNET@GMAIL.COM", "mrfreestyleur@free.fr", "MRFREESTYLEUR@FREE.FR"});
     rules.push_back({"ET", "ETHER", "ETHEREUM", "Ether", "Ethereum"});
     rules.push_back({"wallet", "WALLET", "Wallet", "wallets", "WALLETS", "Wallets"});
-    rules.push_back({"1", "01"});
-    
+    rules.push_back({"1", "01", "2", "02"});
+
     rules.push_back({"vt88q6s2"});
     rules.push_back({"yp3s532g"});
-    rules.push_back({"Y@"});
+    rules.push_back({"", "Y@"});
 
     rulesCount(rules);
 
@@ -89,7 +95,8 @@ int main()
         vector<vector<string>> outPerm = permutation(rule);
         std::cout << "permutation size " << outPerm.size() << endl;
         //display(outPerm);
-        for(auto & v: outPerm){
+        for (auto &v : outPerm)
+        {
             //std::cout << "permutation " << v.size() << endl;
             auto outSep = insertSeparator(v);
             //std::cout << "separator " << outSep.size() << endl;
@@ -99,8 +106,5 @@ int main()
             //std::cout << "cp " << outCp.size() << endl;
             //display(outCp);
         }
-
-        
-        
     }
 }
