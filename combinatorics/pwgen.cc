@@ -64,8 +64,8 @@ int rulesCount(const vector<vector<string>> &rules)
     int sepCount = 4;
     int finalCp = pow(sepCount, rules.size() - 1);
     cout << "finalCp " << finalCp << endl;
-    int count = cpCount * permutationCount * finalCp;
-    cout << "*********rulesCount " << count << endl;
+    unsigned int count = cpCount * permutationCount * finalCp;
+    cout << "RulesCount " << count << endl;
     cout << count / 1000000 << " millions" << endl;
     return count;
 }
@@ -87,8 +87,6 @@ int main()
     rulesCount(rules);
 
     vector<vector<string>> cp = CartesianProduct(rules);
-    //std::cout << "Combination size " << cp.size() << endl;
-    //display(cp);
 
     for (auto &rule : cp)
     {
@@ -97,14 +95,8 @@ int main()
         //display(outPerm);
         for (auto &v : outPerm)
         {
-            //std::cout << "permutation " << v.size() << endl;
             auto outSep = insertSeparator(v);
-            //std::cout << "separator " << outSep.size() << endl;
-            //display(outSep);
-            //auto outCp = CartesianProduct(outSep);
             CartesianProductStream(outSep);
-            //std::cout << "cp " << outCp.size() << endl;
-            //display(outCp);
         }
     }
 }
