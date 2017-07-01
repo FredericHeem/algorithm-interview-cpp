@@ -13,9 +13,9 @@ void display(const vector<string> &list)
 {
     for (const auto &elem : list)
     {
-        cout << elem;
+        printf("%s", elem.c_str());
     }
-    cout << endl;
+    printf("\n");
 }
 
 void display(const vector<vector<string>> &result)
@@ -95,7 +95,7 @@ int main()
             //display(outSep);
             auto outCp = CartesianProduct(outSep);
             //std::cout << "cp " << outCp.size() << endl;
-            //display(outCp);
+            display(outCp);
         }
 
         
