@@ -91,15 +91,16 @@ int main()
     ofstream file;
     file.open("pwgen.log");
     vector<vector<string>> rules;
-    rules.push_back({"",
-                     "maxime.beynet@gmail.com", "MAXIME.BEYNET@GMAIL.COM", 
+    rules.push_back({
+                     "maxime.beynet@gmail.com", "MAXIME.BEYNET@GMAIL.COM",
+                     ""
                      //"maxime;beynet@gmail;com", "MAXIME;BEYNET@GMAIL;COM"
                      //"mrfreestyleur@free.fr", "MRFREESTYLEUR@FREE.FR",
                      //"mrfreestyleur@free;fr", "MRFREESTYLEUR@FREE;FR"
                      });
-    rules.push_back({"", "ET", "ETHER", "ETHEREUM", "Ether", "Ethereum", "ETH", "Eth"});
+    rules.push_back({"ET", "ETHER", "ETHEREUM", "Ether", "Ethereum", "ETH", "Eth", ""});
 
-    rules.push_back({"", "wallet", "WALLET", "Wallet", "wallets", "WALLETS", "Wallets"});
+    rules.push_back({"wallet", "WALLET", "Wallet", "wallets", "WALLETS", "Wallets", ""});
     rules.push_back({"2", "02"});
 
     rules.push_back({"vt88q6s2"});
@@ -111,17 +112,23 @@ int main()
 
     vector<vector<string>> cp = CartesianProduct(rules);
     int cpIndex = 0;
+    unsigned long total = 0;
     for (auto &rule : cp)
     {
         vector<vector<string>> outPerm = permutation(rule);
         cpIndex++;
         file << "cp index " << cpIndex << "/" << stats.cpSize << " " << cpIndex * 100 / stats.cpSize << "%" << endl;
+        unsigned long cpSize = 0;
         //display(outPerm);
         for (auto &v : outPerm)
         {
             auto outSep = insertSeparator(v);
-            CartesianProductStream(outSep);
+            cpSize += CartesianProductStream(outSep);
+
         }
+        total += cpSize;
+        file << "Total " << total / 1000000 << " millions, cpSize " << cpSize << endl;
+        
     }
     
     file.close();
