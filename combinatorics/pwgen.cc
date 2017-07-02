@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cassert>
 #include <math.h>
+#include <fstream>
 #include "Combination.h"
 #include "Permutation.h"
 
@@ -34,10 +35,16 @@ vector<vector<string>> insertSeparator(const vector<string> &rule)
     {
         if (!(*it).empty())
         {
-            out.push_back({*it});
-            if (it != rule.end() - 1)
+            if (it == rule.begin())
             {
-                out.push_back(seps);
+                out.push_back({*it});
+            }
+            else
+            {
+                if(!out.empty()){
+                    out.push_back(seps);
+                }
+                out.push_back({*it});
             }
         }
     }
@@ -45,54 +52,70 @@ vector<vector<string>> insertSeparator(const vector<string> &rule)
     //display(out);
     return out;
 }
-int rulesCount(const vector<vector<string>> &rules)
+struct RulesStat
+{
+    unsigned long cpSize;
+    unsigned long count;
+};
+int rulesCount(const vector<vector<string>> &rules, RulesStat &stats, ofstream &file)
 {
     //Cartesian product
-    int cpCount = 1;
+    unsigned long cpCount = 1;
     for (const auto &rule : rules)
     {
         cpCount *= rule.size();
     }
-    cout << "cartesian product size " << cpCount << endl;
-    int permutationCount = 1;
+    file << "cartesian product size " << cpCount << endl;
+    stats.cpSize = cpCount;
+    unsigned long permutationCount = 1;
     for (int i = 1; i <= rules.size(); i++)
     {
         permutationCount *= i;
     }
-    cout << "permutationCount " << permutationCount << endl;
+    file << "permutationCount " << permutationCount << endl;
 
     int sepCount = 4;
-    int finalCp = pow(sepCount, rules.size() - 1);
-    cout << "finalCp " << finalCp << endl;
-    unsigned int count = cpCount * permutationCount * finalCp;
-    cout << "RulesCount " << count << endl;
-    cout << count / 1000000 << " millions" << endl;
+    unsigned long finalCp = pow(sepCount, rules.size() - 1);
+    file << "finalCp " << finalCp << endl;
+    unsigned long count = cpCount * permutationCount * finalCp;
+    file << "RulesCount " << count << endl;
+    file << count / 1000000 << " millions" << endl;
+    file << count / 400000 / 3600 << " hours" << endl;
+    stats.count = count;
     return count;
 }
 
 int main()
 {
     std::cout << "Pwgen\n";
-
+    ofstream file;
+    file.open("pwgen.log");
     vector<vector<string>> rules;
-    rules.push_back({"maxime.beynet@gmail.com", "MAXIME.BEYNET@GMAIL.COM", "mrfreestyleur@free.fr", "MRFREESTYLEUR@FREE.FR",
-                     "maxime;beynet@gmail;com", "MAXIME;BEYNET@GMAIL;COM", "mrfreestyleur@free;fr", "MRFREESTYLEUR@FREE;FR"});
-    rules.push_back({"", "ET", "ETHER", "ETHEREUM", "Ether", "Ethereum"});
-    rules.push_back({"", "wallet", "WALLET", "Wallet", "wallets", "WALLETS", "Wallets"});
-    rules.push_back({"1", "01", "2", "02"});
+    rules.push_back({"",
+                     "maxime.beynet@gmail.com", "MAXIME.BEYNET@GMAIL.COM", 
+                     //"maxime;beynet@gmail;com", "MAXIME;BEYNET@GMAIL;COM"
+                     //"mrfreestyleur@free.fr", "MRFREESTYLEUR@FREE.FR",
+                     //"mrfreestyleur@free;fr", "MRFREESTYLEUR@FREE;FR"
+                     });
+    rules.push_back({"", "ET", "ETHER", "ETHEREUM", "Ether", "Ethereum", "ETH", "Eth"});
 
-    rules.push_back({"", "vt88q6s2"});
-    rules.push_back({"", "yp3s532g"});
+    rules.push_back({"", "wallet", "WALLET", "Wallet", "wallets", "WALLETS", "Wallets"});
+    rules.push_back({"2", "02"});
+
+    rules.push_back({"vt88q6s2"});
+    rules.push_back({"yp3s532g"});
     rules.push_back({"", "Y@"});
 
-    rulesCount(rules);
+    RulesStat stats;
+    rulesCount(rules, stats, file);
 
     vector<vector<string>> cp = CartesianProduct(rules);
-
+    int cpIndex = 0;
     for (auto &rule : cp)
     {
         vector<vector<string>> outPerm = permutation(rule);
-        std::cout << "permutation size " << outPerm.size() << endl;
+        cpIndex++;
+        file << "cp index " << cpIndex << "/" << stats.cpSize << " " << cpIndex * 100 / stats.cpSize << "%" << endl;
         //display(outPerm);
         for (auto &v : outPerm)
         {
@@ -100,4 +123,6 @@ int main()
             CartesianProductStream(outSep);
         }
     }
+    
+    file.close();
 }
