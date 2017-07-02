@@ -41,7 +41,8 @@ vector<vector<string>> insertSeparator(const vector<string> &rule)
             }
             else
             {
-                if(!out.empty()){
+                if (!out.empty())
+                {
                     out.push_back(seps);
                 }
                 out.push_back({*it});
@@ -55,9 +56,9 @@ vector<vector<string>> insertSeparator(const vector<string> &rule)
 struct RulesStat
 {
     unsigned long cpSize;
-    unsigned long count;
+    unsigned long total;
 };
-int rulesCount(const vector<vector<string>> &rules, RulesStat &stats, ofstream &file)
+void rulesCount(const vector<vector<string>> &rules, RulesStat &stats, ofstream &file)
 {
     //Cartesian product
     unsigned long cpCount = 1;
@@ -77,39 +78,11 @@ int rulesCount(const vector<vector<string>> &rules, RulesStat &stats, ofstream &
     int sepCount = 4;
     unsigned long finalCp = pow(sepCount, rules.size() - 1);
     file << "finalCp " << finalCp << endl;
-    unsigned long count = cpCount * permutationCount * finalCp;
-    file << "RulesCount " << count << endl;
-    file << count / 1000000 << " millions" << endl;
-    file << count / 400000 / 3600 << " hours" << endl;
-    stats.count = count;
-    return count;
+
+    return;
 }
-
-int main()
+unsigned long run(vector<vector<string>> &rules, RulesStat &stats, ofstream &file, bool sizeOnly = false)
 {
-    std::cout << "Pwgen\n";
-    ofstream file;
-    file.open("pwgen.log");
-    vector<vector<string>> rules;
-    rules.push_back({
-                     "maxime.beynet@gmail.com", "MAXIME.BEYNET@GMAIL.COM",
-                     ""
-                     //"maxime;beynet@gmail;com", "MAXIME;BEYNET@GMAIL;COM"
-                     //"mrfreestyleur@free.fr", "MRFREESTYLEUR@FREE.FR",
-                     //"mrfreestyleur@free;fr", "MRFREESTYLEUR@FREE;FR"
-                     });
-    rules.push_back({"ET", "ETHER", "ETHEREUM", "Ether", "Ethereum", "ETH", "Eth", ""});
-
-    rules.push_back({"wallet", "WALLET", "Wallet", "wallets", "WALLETS", "Wallets", ""});
-    rules.push_back({"2", "02"});
-
-    rules.push_back({"vt88q6s2"});
-    rules.push_back({"yp3s532g"});
-    rules.push_back({"", "Y@"});
-
-    RulesStat stats;
-    rulesCount(rules, stats, file);
-
     vector<vector<string>> cp = CartesianProduct(rules);
     int cpIndex = 0;
     unsigned long total = 0;
@@ -119,17 +92,48 @@ int main()
         cpIndex++;
         file << "cp index " << cpIndex << "/" << stats.cpSize << " " << cpIndex * 100 / stats.cpSize << "%" << endl;
         unsigned long cpSize = 0;
-        //display(outPerm);
         for (auto &v : outPerm)
         {
             auto outSep = insertSeparator(v);
-            cpSize += CartesianProductStream(outSep);
-
+            if(sizeOnly){
+                cpSize += CartesianProductSize(outSep);
+            } else {
+                cpSize += CartesianProductStream(outSep);
+            }
         }
         total += cpSize;
         file << "Total " << total / 1000000 << " millions, cpSize " << cpSize << endl;
-        
     }
-    
+    stats.total = total;
+    return total;
+}
+
+int main()
+{
+    std::cout << "Pwgen\n";
+    ofstream file;
+    file.open("pwgen.log");
+    vector<vector<string>> rules;
+    rules.push_back({
+        "maxime.beynet@gmail.com", "MAXIME.BEYNET@GMAIL.COM",
+        "maxime;beynet@gmail;com", "MAXIME;BEYNET@GMAIL;COM"
+        "mrfreestyleur@free.fr", "MRFREESTYLEUR@FREE.FR",
+        "mrfreestyleur@free;fr", "MRFREESTYLEUR@FREE;FR",
+        ""
+    });
+    rules.push_back({"ET", "ETHER", "ETHEREUM", "Ether", "Ethereum", "ETH", "Eth", ""});
+
+    rules.push_back({"wallet", "WALLET", "Wallet", "wallets", "WALLETS", "Wallets", ""});
+    rules.push_back({"2", "02"});
+
+    rules.push_back({"", "vt88q6s2"});
+    rules.push_back({"", "yp3s532g"});
+    rules.push_back({"", "Y@"});
+
+    RulesStat stats;
+    rulesCount(rules, stats, file);
+
+    run(rules, stats, file, true);
+    run(rules, stats, file);
     file.close();
 }

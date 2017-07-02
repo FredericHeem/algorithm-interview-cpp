@@ -6,13 +6,19 @@
 #include <limits>
 using namespace std;
 
-unsigned long CartesianProductStream(const vector<vector<string>> &vv)
-{
+unsigned long CartesianProductSize(const vector<vector<string>> &vv){
     unsigned long cpSize = 1;
     for (const auto &v : vv)
     {
         cpSize *= v.size();
     }
+    return cpSize;
+}
+
+unsigned long CartesianProductStream(const vector<vector<string>> &vv)
+{
+    unsigned long cpSize = CartesianProductSize(vv);
+
     for (unsigned long i = 0; i <= cpSize; i++)
     {
         unsigned long nth = i;
